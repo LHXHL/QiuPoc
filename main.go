@@ -14,18 +14,17 @@ import (
 )
 
 func Banner() {
-	banner := `    ███████    ██         ███████                     
-  ██░░░░░██  ░░         ░██░░░░██             ██   ██
- ██     ░░██  ██ ██   ██░██   ░██   ██████   ░░██ ██ 
-░██      ░██ ░██░██  ░██░███████   ░░░░░░██   ░░███  
-░██    ██░██ ░██░██  ░██░██░░░██    ███████    ░██   
-░░██  ░░ ██  ░██░██  ░██░██  ░░██  ██░░░░██    ██    
- ░░███████ ██░██░░██████░██   ░░██░░████████  ██     
-  ░░░░░░░ ░░ ░░  ░░░░░░ ░░     ░░  ░░░░░░░░  ░░      
-								
-									by: Qiu
+	banner := `   ███████    ██         ███████                  
+  ██░░░░░██  ░░         ░██░░░░██                 
+ ██     ░░██  ██ ██   ██░██   ░██  ██████   █████ 
+░██      ░██ ░██░██  ░██░███████  ██░░░░██ ██░░░██
+░██    ██░██ ░██░██  ░██░██░░░░  ░██   ░██░██  ░░ 
+░░██  ░░ ██  ░██░██  ░██░██      ░██   ░██░██   ██
+ ░░███████ ██░██░░██████░██      ░░██████ ░░█████ 
+  ░░░░░░░ ░░ ░░  ░░░░░░ ░░        ░░░░░░   ░░░░░
+							by: Qiu
 `
-	color.HiRed(banner)
+	color.HiMagenta(banner)
 }
 func Help() {
 
@@ -47,6 +46,7 @@ var PocsMap = map[string]Pocs{
 	"4": poc.Tplus_RCE,
 	"5": poc.RenWoXin_Crm_Sql,
 	"6": poc.QiWangERP_EXEC,
+	"7": poc.Kingdee_Erp_Kdsvc_RCE,
 	"99": func(target string) {
 		fmt.Println("sss")
 	},
@@ -98,12 +98,13 @@ func goUrl(urlChan <-chan string, wg *sync.WaitGroup, expName string) {
 func main() {
 	target := flag.String("u", "", "目标URL")
 	expName := flag.String("exp", "", "指定利用poc")
-	file := flag.String("file", "", "指定测试的文件名")
+	file := flag.String("f", "", "指定测试的文件名")
 	flag.Parse()
 
 	*target = strings.TrimSuffix(*target, "/")
 
 	if *target == "" && *file == "" {
+		Banner()
 		Help()
 	} else if *target != "" {
 		Banner()

