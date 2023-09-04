@@ -5,7 +5,7 @@
 ```go
 git clone https://github.com/LHXHL/QiuPoc.git
 go build -o main main.go
-./mian -h 使用说明
+./main -h 使用说明
 ```
 
 ### Pocs(慢慢更新)

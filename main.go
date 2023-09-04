@@ -45,6 +45,8 @@ func ShowPocs() {
 7: 金蝶OA 云星空 kdsvc 远程命令执行漏洞
 8: 金和OA C6-GetSqlData.aspx SQL注入漏洞
 9: JeecgBoot 企业级低代码平台 qurestSql SQL注入漏洞 CVE-2023-1454
+10: 大华 智慧园区综合管理平台 video 任意文件上传漏洞
+11: 大华 智慧园区综合管理平台 user_getUserInfoByUserName.action 账号密码泄漏漏洞
 ...
 `
 	config.TextPut.Println(pocs)
@@ -53,16 +55,18 @@ func ShowPocs() {
 type Pocs func(string)
 
 var PocsMap = map[string]Pocs{
-	"0": poc.U8CRM_upload_exp,
-	"1": poc.U8CRM_pathTravel_exp,
-	"2": poc.YiSaiTong_upload_Exp,
-	"3": poc.Ruijie_Excu_Shell,
-	"4": poc.Tplus_RCE,
-	"5": poc.RenWoXin_Crm_Sql,
-	"6": poc.QiWangERP_EXEC,
-	"7": poc.Kingdee_Erp_Kdsvc_RCE,
-	"8": poc.JinHeSql_Exec,
-	"9": poc.JeecgBoot_Sql,
+	"0":  poc.U8CRM_upload_exp,
+	"1":  poc.U8CRM_pathTravel_exp,
+	"2":  poc.YiSaiTong_upload_Exp,
+	"3":  poc.Ruijie_Excu_Shell,
+	"4":  poc.Tplus_RCE,
+	"5":  poc.RenWoXin_Crm_Sql,
+	"6":  poc.QiWangERP_EXEC,
+	"7":  poc.Kingdee_Erp_Kdsvc_RCE,
+	"8":  poc.JinHeSql_Exec,
+	"9":  poc.JeecgBoot_Sql,
+	"10": poc.DaHua_Video_Upload,
+	"11": poc.DaHua_sys_user,
 	"99": func(target string) {
 		fmt.Println("exit")
 	},
@@ -77,7 +81,7 @@ func PwnSingleTarget(target string, expName string) {
 	pwnFunc(target)
 }
 
-func PwnTargets(file string, expName string) {
+func PwnTargets(file string, expName string, thread int) {
 	urls, err := os.Open(file)
 	if err != nil {
 		config.ErrMsg.Println("[-]打开urls文件失败")
@@ -87,7 +91,7 @@ func PwnTargets(file string, expName string) {
 	var wg sync.WaitGroup
 	urlChan := make(chan string)
 
-	for i := 0; i < 30; i++ {
+	for i := 0; i < thread; i++ {
 		wg.Add(1)
 		go goUrl(urlChan, &wg, expName)
 	}
@@ -116,6 +120,7 @@ func main() {
 	expName := flag.String("exp", "", "指定利用poc")
 	file := flag.String("f", "", "指定测试的文件名")
 	show := flag.Bool("show", false, "列出所有poc")
+	thread := flag.Int("t", 30, "指定线程数")
 	flag.Parse()
 
 	*target = strings.TrimSuffix(*target, "/")
@@ -132,7 +137,7 @@ func main() {
 	} else {
 		Banner()
 		start := time.Now()
-		PwnTargets(*file, *expName)
+		PwnTargets(*file, *expName, *thread)
 		end := time.Since(start)
 		config.TimePut.Printf("[*]运行时间为: %v\n", end)
 	}
