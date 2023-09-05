@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/config"
+	"PocSir/common"
 	"crypto/tls"
 	"io"
 	"net/http"
@@ -31,7 +31,7 @@ func Ruijie_Excu_Shell(target string) {
 
 	req, err := http.NewRequest("GET", pocUrl, nil)
 	if err != nil {
-		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 
@@ -40,7 +40,7 @@ func Ruijie_Excu_Shell(target string) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		config.ErrMsg.Printf("[-]%s is timeout\n", target)
+		common.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
@@ -49,9 +49,9 @@ func Ruijie_Excu_Shell(target string) {
 	data := string(body)
 
 	if resp.StatusCode == http.StatusOK && strings.Contains(data, "configuration") {
-		config.Right.Printf("[+]存在锐捷交换机 WEB 管理系统 EXCU_SHELL 信息泄露漏洞:%s\n", target)
-		config.TextPut.Printf("[+]running-config:", data)
+		common.Right.Printf("[+]存在锐捷交换机 WEB 管理系统 EXCU_SHELL 信息泄露漏洞:%s\n", target)
+		common.TextPut.Printf("[+]running-config:", data)
 	} else {
-		config.ErrMsg.Printf("[-]不存在锐捷交换机 WEB 管理系统 EXCU_SHELL 信息泄露漏洞:%s\n", target)
+		common.ErrMsg.Printf("[-]不存在锐捷交换机 WEB 管理系统 EXCU_SHELL 信息泄露漏洞:%s\n", target)
 	}
 }

