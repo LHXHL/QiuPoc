@@ -1,6 +1,7 @@
-package common
+package scan
 
 import (
+	"PocSir/config"
 	"PocSir/poc"
 	"bufio"
 	"fmt"
@@ -24,6 +25,7 @@ var PocsMap = map[string]Pocs{
 	"10": poc.DaHua_Video_Upload,
 	"11": poc.DaHua_sys_user,
 	"12": poc.HongFan_Ioffice_Sql,
+	"13": poc.LandrayOA_Rce,
 	"99": func(target string) {
 		fmt.Println("exit")
 	},
@@ -32,7 +34,7 @@ var PocsMap = map[string]Pocs{
 func PwnSingleTarget(target string, expName string) {
 	pwnFunc, found := PocsMap[expName]
 	if !found {
-		ErrMsg.Printf("[-]没有此序列的poc")
+		config.ErrMsg.Printf("[-]没有此序列的poc")
 		return
 	}
 	pwnFunc(target)
@@ -41,7 +43,7 @@ func PwnSingleTarget(target string, expName string) {
 func PwnTargets(file string, expName string, thread int) {
 	urls, err := os.Open(file)
 	if err != nil {
-		ErrMsg.Println("[-]打开urls文件失败")
+		config.ErrMsg.Println("[-]打开urls文件失败")
 		return
 	}
 	defer urls.Close()

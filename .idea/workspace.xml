@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a14d498c-a67a-4a29-97c8-58476207f897" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/common/FlagInfo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/GoPwn.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/common/Help.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/poc/HongFan_Ioffice_Sql.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/poc/LandrayOA_RCE.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/ColorPrint.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/ColorPrint.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/ColorPrint.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/ColorPrint.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/FlagInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/common/FlagInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/GoPwn.go" beforeDir="false" afterPath="$PROJECT_DIR$/scan/GoPwn.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/Help.go" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/DaHua_sys_user.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/DaHua_sys_user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/DaHua_video_upload.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/DaHua_video_upload.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/poc/HongFan_Ioffice_Sql.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/HongFan_Ioffice_Sql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/JeecgBoot_Sql.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/JeecgBoot_Sql.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/JinHeC6_Sql_Exec.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/JinHeC6_Sql_Exec.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/Kingdee_Erp_kdsvc_RCE.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/Kingdee_Erp_kdsvc_RCE.go" afterDir="false" />
@@ -24,7 +25,6 @@
       <change beforePath="$PROJECT_DIR$/poc/U8CRM_Path_Traversal_exp.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/U8CRM_Path_Traversal_exp.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/U8CRM_upload_exp.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/U8CRM_upload_exp.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/poc/YiSaiTong_Exp.go" beforeDir="false" afterPath="$PROJECT_DIR$/poc/YiSaiTong_Exp.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/urls.txt" beforeDir="false" afterPath="$PROJECT_DIR$/urls.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,37 +50,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/liuke&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "/Users/liuke",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/poc" />
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/common" />
       <recent name="$PROJECT_DIR$/config" />
+      <recent name="$PROJECT_DIR$/scan" />
+      <recent name="$PROJECT_DIR$/common" />
       <recent name="$PROJECT_DIR$/internal/core" />
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="QiuPoc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build DaHua_video_upload.go" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="QiuPoc" />
       <working_directory value="$PROJECT_DIR$" />
@@ -88,6 +98,15 @@
       <package value="PocSir" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/poc/DaHua_video_upload.go" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="QiuPoc" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
     <recent_temporary>
